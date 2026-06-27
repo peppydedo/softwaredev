@@ -12,7 +12,8 @@ A modern, responsive single-page marketing website for a custom software develop
 - **Hero section** with gradient background, headline, stats, and CTA buttons
 - **Services grid** — responsive 1→2→4 column layout (Web Apps, Mobile, APIs, Cloud & DevOps)
 - **Testimonials** — 3 cards with hover lift effect
-- **Enquiry form** — client-side validation, inline error messages, success confirmation, and a console-logged payload (with a commented-out `fetch()` stub for wiring up a real backend)
+- **Enquiry form** — client-side validation, inline error messages, success confirmation, and a commented-out `fetch()` stub for wiring up a real backend
+- **WhatsApp floating widget** — fixed bottom-right button with a spring-animated popup panel and 4 suggestive quick-reply queries that pre-fill a WhatsApp chat
 - Fully responsive via CSS Grid and Flexbox (breakpoints at 640px, 768px, 1024px)
 - Accessible: semantic HTML5, labelled inputs, `role="alert"` error spans, `aria-expanded` on the nav toggle
 
