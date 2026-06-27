@@ -943,6 +943,157 @@
 
     .footer-nav a:hover { color: rgba(255, 255, 255, 0.6); }
 
+    /* ─── WhatsApp Widget ────────────────────────────────────────────────── */
+    .wa-widget {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .wa-popup {
+      width: 300px;
+      background: #FFFFFF;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transform-origin: bottom right;
+      transform: scale(0.85) translateY(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 220ms cubic-bezier(0.34,1.56,0.64,1), opacity 180ms ease;
+    }
+
+    .wa-popup.open {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .wa-popup-header {
+      background: #25D366;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .wa-popup-header svg { flex-shrink: 0; }
+
+    .wa-popup-header-text { flex: 1; }
+
+    .wa-popup-header-text strong {
+      display: block;
+      color: #FFFFFF;
+      font-size: 0.9rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .wa-popup-header-text span {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.78);
+    }
+
+    .wa-popup-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.8);
+      padding: 4px;
+      line-height: 1;
+      font-size: 1.1rem;
+      transition: color var(--transition);
+    }
+
+    .wa-popup-close:hover { color: #FFFFFF; }
+
+    .wa-popup-body {
+      padding: 14px 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .wa-greeting {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 2px;
+      line-height: 1.5;
+    }
+
+    .wa-query {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #F0FDF4;
+      border: 1.5px solid #BBF7D0;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      color: #166534;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 160ms ease, border-color 160ms ease, transform 120ms ease;
+      line-height: 1.4;
+    }
+
+    .wa-query:hover {
+      background: #DCFCE7;
+      border-color: #86EFAC;
+      transform: translateX(-2px);
+    }
+
+    .wa-query::before {
+      content: '→ ';
+      opacity: 0.6;
+    }
+
+    .wa-fab {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #25D366;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+      transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+      position: relative;
+    }
+
+    .wa-fab:hover {
+      background: #20B858;
+      transform: scale(1.08);
+      box-shadow: 0 6px 28px rgba(37,211,102,0.55);
+    }
+
+    .wa-fab:active { transform: scale(0.96); }
+
+    .wa-badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 16px;
+      height: 16px;
+      background: #EF4444;
+      border-radius: 50%;
+      border: 2px solid var(--paper);
+      animation: wa-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes wa-pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.25); opacity: 0.7; }
+    }
+
     /* ─── Focus & reduced motion ─────────────────────────────────────────── */
     :focus-visible {
       outline: 2px solid var(--amber);
@@ -1331,6 +1482,37 @@
   </footer>
 
 
+  <!-- ── WhatsApp Widget ───────────────────────────────────────────────── -->
+  <div class="wa-widget" id="wa-widget" role="complementary" aria-label="WhatsApp chat">
+    <div class="wa-popup" id="wa-popup" role="dialog" aria-modal="false" aria-label="Start a WhatsApp conversation">
+      <div class="wa-popup-header">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <circle cx="18" cy="18" r="18" fill="rgba(255,255,255,0.2)"/>
+          <path d="M18 9C13.03 9 9 13.03 9 18c0 1.69.46 3.27 1.26 4.63L9 27l4.52-1.23A8.94 8.94 0 0018 27c4.97 0 9-4.03 9-9s-4.03-9-9-9zm4.45 12.3c-.19.52-.94.95-1.48 1.07-.39.08-.9.15-2.62-.56-2.2-.9-3.61-3.14-3.72-3.28-.1-.14-.87-1.16-.87-2.21s.55-1.57.74-1.78c.2-.22.43-.27.57-.27h.41c.13 0 .31-.05.48.37.18.43.62 1.52.67 1.63.06.11.1.24.02.38-.07.14-.11.22-.22.35-.11.12-.23.27-.33.36-.11.1-.23.2-.1.4.14.2.61.88 1.31 1.43.9.73 1.66.95 1.89 1.05.23.1.36.08.49-.05.14-.14.59-.68.74-.91.15-.23.3-.19.51-.11.2.08 1.27.6 1.49.71.22.1.37.16.42.24.06.09.06.52-.13 1.04z" fill="white"/>
+        </svg>
+        <div class="wa-popup-header-text">
+          <strong>DevCraft</strong>
+          <span>Typically replies in minutes</span>
+        </div>
+        <button class="wa-popup-close" id="wa-close" aria-label="Close chat widget">✕</button>
+      </div>
+      <div class="wa-popup-body">
+        <p class="wa-greeting">Hi there! 👋 How can we help you today? Pick a topic to start the conversation:</p>
+        <button class="wa-query" data-msg="Hi DevCraft! I'd like to discuss a new project idea.">I have a project idea to discuss</button>
+        <button class="wa-query" data-msg="Hi DevCraft! Can I get a quote for my app?">I want a quote for my app</button>
+        <button class="wa-query" data-msg="Hi DevCraft! What does your development process look like?">What's your development process?</button>
+        <button class="wa-query" data-msg="Hi DevCraft! How quickly can you start on a project?">How quickly can you start?</button>
+      </div>
+    </div>
+
+    <button class="wa-fab" id="wa-fab" aria-label="Open WhatsApp chat" aria-expanded="false" aria-controls="wa-popup">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="white" aria-hidden="true">
+        <path d="M14 2C7.37 2 2 7.37 2 14c0 2.13.57 4.13 1.57 5.85L2 26l6.35-1.54A11.93 11.93 0 0014 26c6.63 0 12-5.37 12-12S20.63 2 14 2zm5.82 16.46c-.25.68-1.23 1.25-1.94 1.41-.51.11-1.18.2-3.43-.73-2.88-1.18-4.72-4.1-4.86-4.29-.14-.19-1.14-1.52-1.14-2.9s.72-2.06.97-2.34c.26-.29.57-.36.76-.36h.54c.17 0 .4-.07.62.48.24.57.82 1.99.89 2.14.08.14.13.31.03.5-.09.19-.14.3-.28.47-.15.16-.31.36-.44.48-.15.14-.3.28-.13.55.18.27.8 1.15 1.72 1.86 1.18.95 2.17 1.25 2.47 1.38.3.13.48.11.65-.07.18-.18.78-.9.98-1.2.2-.3.4-.25.66-.15.27.1 1.66.78 1.95.93.28.14.48.2.55.32.08.12.08.69-.17 1.35z"/>
+      </svg>
+      <span class="wa-badge" aria-hidden="true"></span>
+    </button>
+  </div>
+
   <script>
     // ── Navbar scroll effect ───────────────────────────────────────────────
     const header = document.getElementById('site-header');
@@ -1464,28 +1646,72 @@
         submittedAt: new Date().toISOString(),
       };
 
-      console.log('Enquiry form submission:', data);
+      const submitBtn = form.querySelector('.btn-submit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
 
-      /*
-      // ── Uncomment to POST to a real API endpoint ─────────────────────────
-      fetch('/api/enquiries', {
+      fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          access_key: 'YOUR_WEB3FORMS_ACCESS_KEY',
+          subject: 'New enquiry from ' + data.name,
+          from_name: data.name,
+          replyto: data.email,
+          name: data.name,
+          email: data.email,
+          phone: data.phone || 'Not provided',
+          service: data.service,
+          message: data.message,
+          submitted_at: data.submittedAt,
+        }),
       })
-        .then(res => {
-          if (!res.ok) throw new Error('Network response was not ok: ' + res.status);
-          return res.json();
+        .then(res => res.json())
+        .then(json => {
+          if (!json.success) throw new Error(json.message || 'Submission failed');
+          form.reset();
+          successMsg.classList.add('visible');
+          successMsg.focus();
+          setTimeout(() => { successMsg.classList.remove('visible'); }, 7000);
         })
-        .then(json => { console.log('Server response:', json); })
-        .catch(err => { console.error('Submission error:', err); });
-      */
+        .catch(err => {
+          console.error('Submission error:', err);
+          alert('Sorry, there was a problem sending your enquiry. Please try again or email us directly.');
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send enquiry →';
+        });
+    });
 
-      form.reset();
-      successMsg.classList.add('visible');
-      successMsg.focus();
+    // ── WhatsApp widget ────────────────────────────────────────────────────
+    const WA_NUMBER = '6599999999'; // replace with your number (no + or spaces)
 
-      setTimeout(() => { successMsg.classList.remove('visible'); }, 7000);
+    const waFab   = document.getElementById('wa-fab');
+    const waPopup = document.getElementById('wa-popup');
+    const waClose = document.getElementById('wa-close');
+
+    function openWa()  { waPopup.classList.add('open'); waFab.setAttribute('aria-expanded', 'true'); }
+    function closeWa() { waPopup.classList.remove('open'); waFab.setAttribute('aria-expanded', 'false'); }
+    function toggleWa() { waPopup.classList.contains('open') ? closeWa() : openWa(); }
+
+    waFab.addEventListener('click', toggleWa);
+    waClose.addEventListener('click', closeWa);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && waPopup.classList.contains('open')) closeWa();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#wa-widget')) closeWa();
+    });
+
+    document.querySelectorAll('.wa-query').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const msg = encodeURIComponent(btn.dataset.msg);
+        window.open('https://wa.me/' + WA_NUMBER + '?text=' + msg, '_blank', 'noopener');
+        closeWa();
+      });
     });
   </script>
 
